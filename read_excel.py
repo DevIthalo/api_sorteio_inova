@@ -1,5 +1,6 @@
 from flask import Flask, Response
 import os.path
+import os
 import random
 import json
 from google.auth.transport.requests import Request
@@ -11,6 +12,7 @@ from flask_cors import CORS
 from flask import request
 app = Flask(__name__)
 CORS(app)  
+
 # Restante das importações...
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -19,11 +21,15 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SAMPLE_SPREADSHEET_ID = '1h-IYaShYgfEkruekbnJFtGQGj495d_45sRCb9G73QV4'
 SAMPLE_RANGE_NAME = 'Respostas ao formulário 1!C2:G459'
 
+# Obtém o caminho absoluto para o diretório do script
+script_directory = os.path.dirname(os.path.abspath(__file__))
+token_file_path = os.path.join(script_directory, 'token.json')
+
 def get_random_row(valor_pesquisa):
     creds = None
 
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    if os.path.exists(token_file_path):
+        creds = Credentials.from_authorized_user_file(token_file_path, SCOPES)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -32,7 +38,7 @@ def get_random_row(valor_pesquisa):
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
-        with open('token.json', 'w') as token:
+        with open(token_file_path, 'w') as token:
             token.write(creds.to_json())
 
     try:
@@ -85,4 +91,4 @@ def index():
         return Response(json.dumps({"error": "O ponto sorteado não possui registro de venda."}), content_type='application/json');
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(debug=True)
