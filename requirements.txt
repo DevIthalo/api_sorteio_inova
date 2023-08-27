@@ -3,7 +3,7 @@ cachetools==5.3.1
 certifi==2023.7.22
 charset-normalizer==3.2.0
 click==8.1.7
-Flask==2.1.4
+Flask==2.1.2
 Flask-Cors==4.0.0
 google-api-core==2.11.1
 google-api-python-client==2.97.0
