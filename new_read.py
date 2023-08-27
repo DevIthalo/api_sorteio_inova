@@ -93,13 +93,6 @@
 #         if not values:
 #             return None
         
-
-#         # Criar um DataFrame a partir dos dados do Google Sheets
-#         df = pd.DataFrame(values, columns=['vendedor', 'cliente', 'telefone', '...', 'ponto', '...'])
-
-#         # Realizar a pesquisa direta utilizando pandas
-#         resultado = df[df['ponto'].astype(int) == valor_pesquisa]
-
 #         for row in values:
 #             if int(row[4]) == valor_pesquisa:
 #                 return {
@@ -247,10 +240,6 @@ def get_random_row(valor_pesquisa):
                     'telefone': random_data["telefone"], 
                     'ponto': random_data["ponto"],
                 }
-        else:
-            error_response = {"error": "O ponto sorteado não possui registro de venda."}
-            return json.dumps(error_response, ensure_ascii=False)
-
 
         return None
 
